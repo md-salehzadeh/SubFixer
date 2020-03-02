@@ -1,0 +1,77 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="icon" href="assets/images/icon.png" sizes="16x16" type="image/png">
+	<title>SubFixer</title>
+
+	<link rel="stylesheet" href="assets/components/foundation-6.5.1/css/foundation.css">
+	<link rel="stylesheet" href="assets/components/foundation-6.5.1/css/app.css">
+
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/css/main.css.map">
+</head>
+
+<body>
+	<div class="grid-container">
+		<div class="grid-x grid-padding-x">
+			<div class="cell small-3"></div>
+
+			<div class="cell small-6">
+				<div class="ms-box" id="main-wrapper">
+					<div class="ms-box-h-border"></div>
+					<div class="ms-box-v-border"></div>
+					<div class="ms-box-inner">
+						<div class="ms-box-header">
+							SubFixer
+						</div>
+
+						<div>
+							<form id="form" action="index.php" method="post" enctype="multipart/form-data">
+								<input name="subtitles[]" type="file" class="custom-file-input" multiple>
+								<input name="name-pattern" type="text" class="input-style" placeholder="Name pattern" autocomplete="off">
+								<input name="name" type="text" class="input-style" placeholder="Name" autocomplete="off">
+								<input type="submit" value="Fix now" />
+							</form>
+
+							<div id="download-wrapper"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="cell small-3"></div>
+		</div>
+	</div>
+
+	<script src="assets/components/foundation-6.5.1/js/vendor/jquery.js"></script>
+	<script src="assets/components/foundation-6.5.1/js/vendor/what-input.js"></script>
+	<script src="assets/components/foundation-6.5.1/js/vendor/foundation.js"></script>
+	<script src="assets/components/foundation-6.5.1/js/app.js"></script>
+
+	<script>
+		$(document).ready(function (e) {
+			$("#form").on('submit', (function (e) {
+				e.preventDefault();
+
+				$.ajax({
+					url: "index.php",
+					type: "POST",
+					data: new FormData(this),
+					contentType: false,
+					cache: false,
+					processData: false,
+					success: function (zip_filename) {
+						$('#download-wrapper').append('<iframe src="download.php?filename=' + zip_filename + '"></iframe>');
+					}
+				});
+			}));
+		});
+	</script>
+</body>
+
+</html>
